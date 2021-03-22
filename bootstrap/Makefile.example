@@ -192,6 +192,7 @@ endif
 endif
 endif
 
+noelle: export JOBS=${num-workers}
 noelle:
 ifeq (${compile-noelle}, 1)
 	@echo Compiling NOELLE from Scratch
