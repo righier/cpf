@@ -1,6 +1,5 @@
 #!/bin/bash
 
-LIBERTY_LIBS_DIR="/u/ziyangx/test/cpf-9/build/cpf-install-release/lib"
 function drive {
   # $1: .bc file
   # $2: target fcn
