@@ -272,6 +272,21 @@ $(CANON).lamp_OG.exe : $(CANON).pgo.bc $(LAMPLIBS)
 	date
 
 #
+# SLAMP profile
+#
+
+%.result.slamp.profile: %.loopProf.out
+	date
+	$(SETUP)
+	$(PROFILESETUP)
+	cp $*.loopProf.out loopProf.out
+	DEFAULT_LDFLAGS="$(DEFAULT_LDFLAGS)" DEFAULT_LIBS="$(DEFAULT_LIBS)" PROFILEARGS="$(ARGS) $(PROFILEARGS)" slamp-driver $*.bc $(TARGET_FCN) $(TARGET_LOOP) > rabbit6 2>&1
+	mv result.slamp.profile $@
+	rm -f loopProf.out
+	$(CLEANUP)
+	date
+
+#
 # specpriv profile
 #
 

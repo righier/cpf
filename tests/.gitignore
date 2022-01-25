@@ -7,7 +7,9 @@
 rabbit*
 *.dot
 *.dump
+benchmark.*
 result.specpriv.profile.txt
 result.lamp.profile
+result.slamp.profile
 benchmark.profraw
 results
