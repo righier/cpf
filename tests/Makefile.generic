@@ -72,9 +72,10 @@ FCNSPLITLIBS=
 NAMEDLIBS=
 
 INLINER_LIB=-load $(LIBERTY_LIBS_DIR)/libUtil.so \
+						-load $(SCAF_LIBS_DIR)/libSCAFUtilities.so \
 						-load $(NOELLE_LIBS_DIR)/libCudd.so \
 						-load $(NOELLE_LIBS_DIR)/libSvf.so \
-						-load $(LIBERTY_LIBS_DIR)/libAnalysis.so \
+						-load $(SCAF_LIBS_DIR)/libMemoryAnalysisModules.so \
 						-load $(LIBERTY_LIBS_DIR)/libLoopProf.so \
 						-load $(LIBERTY_LIBS_DIR)/libMetadata.so \
 						-load $(LIBERTY_LIBS_DIR)/libLAMPLoad.so \
@@ -432,7 +433,7 @@ INLINED=$(BINARY).inlined
 $(INLINED).bc : $(HACK2).bc $(CANON).loopProf_OG.out $(CANON).lamp_OG.out
 	cp $(CANON).loopProf_OG.out loopProf.out
 	cp $(CANON).lamp_OG.out result.lamp.profile
-	regressions-watchdog $(TRANSFORM_TIMEOUT) inline.time $(LLVM_OPT) $(INLINER_LIB) -lamp-inst-cnt -lamp-map-loop -lamp-load-profile -always-inline -aggr-inliner $< -o benchmark.inlined.noopt.bc
+	regressions-watchdog $(TRANSFORM_TIMEOUT) inline.time $(LLVM_OPT) $(INLINER_LIB) -lamp-ignore -always-inline -aggr-inliner $< -o benchmark.inlined.noopt.bc
 	regressions-watchdog $(TRANSFORM_TIMEOUT) simplify.time $(LLVM_OPT) $(TRANSFORMATIONS_BEFORE_PARALLELIZATION) benchmark.inlined.noopt.bc -o $@
 	rm -f loopProf.out
 

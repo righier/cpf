@@ -108,7 +108,7 @@ OPTS="-targets "
 CMD="$PREFIX opt $LIBS $OPTS $FCN $LOOP $LIST $1"
 
 echo Running: $CMD
-ulimit -S -v $[100*1024*1024]
+#ulimit -S -v $[100*1024*1024]
 $CMD > /dev/null 2> __targets.txt
 
 declare -a lines

@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     printf("Need three arguments: iter, len, freq\n");
   }
 
-  data = (int *)malloc(sizeof(int) * len);
+  data = new int[len]; //(int *)malloc(sizeof(int) * len);
 
   // initialization of array
   for (auto i = 0; i < len; i++) {
@@ -55,5 +55,6 @@ int main(int argc, char **argv) {
   }
 
   printf("%d", sum);
+  delete data;
   return 0;
 }
