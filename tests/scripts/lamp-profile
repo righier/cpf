@@ -95,7 +95,7 @@ echo $CMD
 $CMD
 
 echo ''
-CMD="g++ -O3 $LAMPS $HOOKS -o $EXE"
+CMD="g++ -O3 -no-pie $LAMPS $HOOKS -o $EXE"
 echo $CMD 
 $CMD
 

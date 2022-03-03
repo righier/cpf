@@ -1,0 +1,62 @@
+diff --git a/liberty/lib/CodeGen/ApplySeparationSpeculation.cpp b/liberty/lib/CodeGen/ApplySeparationSpeculation.cpp
+index 138bb38..6ce4e02 100644
+--- a/liberty/lib/CodeGen/ApplySeparationSpeculation.cpp
++++ b/liberty/lib/CodeGen/ApplySeparationSpeculation.cpp
+@@ -630,6 +630,8 @@ bool ApplySeparationSpec::initFiniFcns()
+   Preprocess &preprocess = getAnalysis< Preprocess >();
+   initFcn = preprocess.getInitFcn();
+   finiFcn = preprocess.getFiniFcn();
++
++  return true;
+ }
+ 
+ bool ApplySeparationSpec::startInitializationFunction()
+diff --git a/tests/Makefile.generic b/tests/Makefile.generic
+index f1ee179..f836561 100644
+--- a/tests/Makefile.generic
++++ b/tests/Makefile.generic
+@@ -35,7 +35,7 @@ LLVM_OPT?= opt
+ 
+ ARGS?=$(TRAINARGS)
+ TESTARGS?=$(REFARGS)
+-TESTARGS=$(ARGS)
++TESTARGS?=$(ARGS)
+ PROFILEARGS?=$(TRAINARGS)
+ 
+ LARGETESTARGS?=$(TESTARGS)
+@@ -293,7 +293,7 @@ $(CANON).specpriv-profile.exe : $(CANON).bc $(SPECPRIVPROFLIBS)
+ 	rm -f $(CANON).specpriv-profile.time $(CANON).specpriv-profile.out $(CANON).specpriv-profile.exe
+ 	regressions-watchdog $(TRANSFORM_TIMEOUT) specpriv-instrument.time specpriv-profile $(CANON).bc
+ 	regressions-watchdog $(TRANSFORM_TIMEOUT) specpriv-lower.time llc $(OPT) $(CANON).specpriv-profile.bc -o $(CANON).specpriv-profile.s
+-	regressions-watchdog $(TRANSFORM_TIMEOUT) specpriv-link.time $(CXX) benchmark.specpriv-profile.s $(QUEUES) $(SPPROF) $(LIBS) -lrt -lpthread -o $@
++	regressions-watchdog $(TRANSFORM_TIMEOUT) specpriv-link.time $(CXX) -no-pie benchmark.specpriv-profile.s $(QUEUES) $(SPPROF) $(LIBS) -lrt -lpthread -o $@
+ 	date
+ 
+ $(CANON).specpriv-pipeline.bc $(CANON).specpriv-pipeline-nopeep.bc : $(CANON).bc $(CANON).lamp.out $(CANON).edgeProf.out $(CANON).specpriv-profile.out $(CANON).loopProf.out $(LIBSPECPRIV) $(LIBERTY_SRC_DIR)/scripts/specpriv-pipeline
+diff --git a/tests/scripts/lamp-profile b/tests/scripts/lamp-profile
+index dce56a1..559e159 100755
+--- a/tests/scripts/lamp-profile
++++ b/tests/scripts/lamp-profile
+@@ -95,7 +95,7 @@ echo $CMD
+ $CMD
+ 
+ echo ''
+-CMD="g++ -O3 $LAMPS $HOOKS -o $EXE"
++CMD="g++ -O3 -no-pie $LAMPS $HOOKS -o $EXE"
+ echo $CMD 
+ $CMD
+ 
+diff --git a/tests/scripts/loop-profile b/tests/scripts/loop-profile
+index 7c251d5..1ec08ff 100755
+--- a/tests/scripts/loop-profile
++++ b/tests/scripts/loop-profile
+@@ -76,7 +76,7 @@ echo $CMD
+ $CMD
+ 
+ echo ''
+-CMD="g++ -O3 $FLIBS $LAMPS $HOOKS -o $EXE"
++CMD="g++ -O3 -no-pie $FLIBS $LAMPS $HOOKS -o $EXE"
+ echo $CMD 
+ $CMD
+ 
+

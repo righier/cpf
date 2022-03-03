@@ -630,6 +630,8 @@ bool ApplySeparationSpec::initFiniFcns()
   Preprocess &preprocess = getAnalysis< Preprocess >();
   initFcn = preprocess.getInitFcn();
   finiFcn = preprocess.getFiniFcn();
+
+  return true;
 }
 
 bool ApplySeparationSpec::startInitializationFunction()
